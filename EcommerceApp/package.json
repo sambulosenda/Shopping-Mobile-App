@@ -27,6 +27,7 @@
     "react-native-screens": "^3.2.0",
     "react-native-tab-view": "^2.x",
     "react-query": "^3.21.0",
+    "yup": "^0.32.9",
     "zustand": "^3.5.9"
   },
   "devDependencies": {

@@ -4,23 +4,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const cartQuantity = cart => {
   let quantity = 0;
-
   Object.keys(cart).forEach(id => {
     const item = cart[id];
     quantity += item.quantity;
   });
-
   return quantity;
 };
 
 export const cartTotal = cart => {
   let total = 0;
-
   Object.keys(cart).forEach(id => {
     const item = cart[id];
     total += item.price * item.quantity;
   });
-
   return total;
 };
 
@@ -31,7 +27,6 @@ export const useCart = create(
       addItem: ({ id, name, price }) => {
         set(state => {
           // cart.123 = { name: 'hello', price: 1999 }
-
           const cart = { ...state.cart };
           if (!cart[id]) {
             cart[id] = {

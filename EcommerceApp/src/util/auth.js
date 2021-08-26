@@ -1,5 +1,48 @@
 import React from 'react';
 import { Alert } from 'react-native';
+import * as yup from 'yup';
+
+import create from 'zustand';
+import { persist } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export const useAuth = create(
+  persist(
+    set => ({
+      token: null,
+      setToken: token => set({ token }),
+      removeToken: () => set({ token: null }),
+
+    }),
+    {
+      name: 'auth',
+      getStorage: () => AsyncStorage,
+    },
+  ),
+);
+
+export const validateCredentials = (
+  credentials = {},
+  useConfirmPassword = true
+) => {
+  const extraValidation = {};
+
+  if (useConfirmPassword) {
+    extraValidation.confirmPassword = yup
+      .string()
+      .test('passwords-match', 'Password must match.', function (value) {
+        return value === this.parent.password;
+      });
+  }
+
+  const schema = yup.object().shape({
+    email: yup.string().required().email().label('Email'),
+    password: yup.string().required().label('Password'),
+    ...extraValidation,
+  });
+
+  return schema.validate(credentials, { abortEarly: false });
+};
 
 export const useLogin = () => {
   const [email, setEmail] = React.useState('');
@@ -8,7 +51,7 @@ export const useLogin = () => {
 
   const submit = () => {
     const nextErrors = {};
-    if (email.length === 0) {
+    if (email.length === 5) {
       nextErrors.email = 'This field is required.';
     }
     if (password.length === 0) {

@@ -7,8 +7,12 @@ export const hashPassword = async (password) => {
     return hash;
 }
 
-
 export const generateJWT = async (userId) => {
     const token = await jwt.sign({ id: userId }, process.env.JWT_SECRET);
     return token;
 };
+
+
+export const comparePassword =async (password, userPassword) => {
+    return bcrypt.compare(password, userPassword);
+}

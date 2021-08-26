@@ -14,7 +14,7 @@ import { useCart } from '../util/cart';
 export const ProductDetails = ({ route }) => {
   const staticData = route.params;
   const { data, isSuccess, isLoading } = useDetailData({ id: route.params.id });
- 
+
   const cart = useCart(state => ({
     quantity: state.cart[route.params.id]?.quantity || 0,
     addItem: state.addItem,
